@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { Send, User, MessageSquare } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 
 // --- TYPES ---
 interface MessageData {
@@ -47,15 +48,29 @@ export default function ChatApp() {
       socketInstance.on("connect", () => {
         setIsConnected(true);
         console.log("Connected to backend:", socketInstance.id);
+
+        
       });
 
       socketInstance.on("disconnect", () => {
         setIsConnected(false);
       });
 
-      socketInstance.on("receive_message", (data: MessageData) => {
+      socketInstance.on("sendMessage", (data: MessageData) => {
+        console.log("msg", data)
         setMessageList((list) => [...list, data]);
       });
+
+      socketInstance.emit("joinChat", username);
+
+      socketInstance.on('roomNotice', (username)=> {
+        console.log(`${username} joined the chat`);
+        toast(`${username} joined the chat`, {
+          position: "top-right",
+          duration: 4000,
+          icon: '🌐'
+        });
+      })
 
       setSocket(socketInstance);
       setIsJoined(true);
@@ -75,7 +90,7 @@ export default function ChatApp() {
       };
 
       // Emit to Backend
-      await socket.emit("send_message", messageData);
+      await socket.emit("sendMessage", messageData);
 
       // Update UI optimistically (optional, or wait for server)
       setMessageList((list) => [...list, messageData]);
@@ -134,6 +149,7 @@ export default function ChatApp() {
   // --- RENDER: CHAT INTERFACE ---
   return (
     <div className="flex flex-col h-screen bg-gray-100">
+      <Toaster />
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b z-10">
         <div className="flex items-center gap-3">
