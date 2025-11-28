@@ -14,8 +14,9 @@ interface MessageData {
 }
 
 // --- CONFIGURATION ---
-// This must match your separate backend folder's port
-const SOCKET_URL = "http://localhost:4000"; 
+// Using the integrated Socket.IO API route
+const SOCKET_URL = process.env.NODE_ENV === 'production' ? '' : "http://localhost:3000"; 
+const SOCKET_PATH = "/api/socket"; 
 
 export default function ChatApp() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -41,8 +42,13 @@ export default function ChatApp() {
   // --- SOCKET CONNECTION ---
   const joinChat = () => {
     if (username !== "") {
-      // 1. Initialize Socket Connection
-      const socketInstance: Socket = io(SOCKET_URL);
+      // Initialize socket connection to connect to our API route
+      fetch('/api/socket');
+      
+      // 1. Initialize Socket Connection with the correct path
+      const socketInstance: Socket = io(SOCKET_URL, {
+        path: SOCKET_PATH
+      });
 
       // 2. Setup Listeners
       socketInstance.on("connect", () => {
