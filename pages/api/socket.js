@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { detectHateSpeech, censorMessage } from '../../lib/moderation';
 
 const ROOM = 'room';
 
@@ -27,7 +28,18 @@ export default function handler(req, res) {
 
         socket.on('sendMessage', (msg) => {
           console.log('Message received:', msg);
-          socket.to(ROOM).emit('sendMessage', msg);
+          
+          // Check for hate speech
+          const isHateSpeech = detectHateSpeech(msg.message);
+          console.log('Hate speech detected:', isHateSpeech);
+          
+          // Create message to broadcast
+          let messageToSend = { ...msg };
+          if (isHateSpeech) {
+            messageToSend.message = censorMessage(msg.message);
+          }
+          
+          socket.to(ROOM).emit('sendMessage', messageToSend);
         });
       });
 

@@ -139,7 +139,7 @@ export default function ChatApp() {
             </div>
             <button
               onClick={joinChat}
-              className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-lg font-semibold shadow-lg transform transition active:scale-95"
+              className="w-full py-3 px-4 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-lg font-semibold shadow-lg transform transition active:scale-95"
             >
               Join Chat
             </button>
@@ -159,7 +159,7 @@ export default function ChatApp() {
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+          <div className="w-10 h-10 rounded-full bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
             {username[0].toUpperCase()}
           </div>
           <div>
