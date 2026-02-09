@@ -18,7 +18,7 @@ npm install
 
 # Setup Python environment
 python3 -m venv hate_speech_env
-source hate_speech_env/bin/activate
+source hate_speech_env/Scripts/activate
 pip install -r ml/requirements.txt
 
 # Start both services
