@@ -18,6 +18,11 @@ npm install
 
 # Setup Python environment
 python3 -m venv hate_speech_env
+
+#For(Linux/Unix/MacOS)
+source hate_speech_env/bin/activate
+
+#For Windows
 source hate_speech_env/Scripts/activate
 pip install -r ml/requirements.txt
 
