@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "start:full": "./start.sh",
+    "start:full:win32": "start.bat",
     "ml:start": "source hate_speech_env/bin/activate && python ml/api.py"
   },
   "dependencies": {

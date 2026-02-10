@@ -49,6 +49,24 @@ echo ""
 echo "Press Ctrl+C to stop both services"
 echo "=================================================="
 
+# Start ML service in background
+source hate_speech_env/bin/activate && python ml/api.py &
+ML_PID=$!
+
+# Give ML service time to start
+sleep 3
+
+# Test if ML service is running
+if curl -s http://localhost:5001/health > /dev/null; then
+    echo "✅ ML Service running on http://localhost:5001"
+else
+    echo "❌ ML Service failed to start"
+    kill $ML_PID 2>/dev/null
+    exit 1
+fi
+
+npm run dev
+
 # Start Next.js (this will run in foreground)
 npm run dev
 

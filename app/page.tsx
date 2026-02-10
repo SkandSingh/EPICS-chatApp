@@ -76,7 +76,24 @@ export default function ChatApp() {
           duration: 4000,
           icon: '🌐'
         });
-      })
+      });
+
+      socketInstance.on('warning', (data: { message: string }) => {
+        console.log('Hate speech warning:', data.message);
+        toast.error(data.message, {
+          position: "top-center",
+          duration: 5000,
+          style: {
+            background: '#fee2e2',
+            color: '#991b1b',
+            border: '2px solid #dc2626',
+            borderRadius: '8px',
+            fontWeight: '500',
+            padding: '16px'
+          },
+          icon: '⚠️'
+        });
+      });
 
       setSocket(socketInstance);
       setIsJoined(true);
@@ -115,6 +132,28 @@ export default function ChatApp() {
   if (!isJoined) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#0f172a',
+              color: '#ffffff',
+              padding: '12px 16px',
+              borderRadius: '10px',
+              boxShadow: '0 6px 18px rgba(2,6,23,0.6)',
+              fontWeight: 600,
+            },
+            success: { icon: '✅' },
+            error: {
+              style: {
+                background: '#fee2e2',
+                color: '#7f1d1d',
+                border: '1px solid #fca5a5',
+              },
+            },
+          }}
+        />
         <div className="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-xl shadow-2xl border border-gray-700">
           <div className="text-center space-y-2">
             <div className="flex justify-center">
@@ -155,7 +194,28 @@ export default function ChatApp() {
   // --- RENDER: CHAT INTERFACE ---
   return (
     <div className="flex flex-col h-screen bg-gray-100">
-      <Toaster />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#0f172a',
+            color: '#ffffff',
+            padding: '12px 16px',
+            borderRadius: '10px',
+            boxShadow: '0 6px 18px rgba(2,6,23,0.6)',
+            fontWeight: 600,
+          },
+          success: { icon: '✅' },
+          error: {
+            style: {
+              background: '#fee2e2',
+              color: '#7f1d1d',
+              border: '1px solid #fca5a5',
+            },
+          },
+        }}
+      />
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b z-10">
         <div className="flex items-center gap-3">
